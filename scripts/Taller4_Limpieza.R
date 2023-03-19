@@ -5,6 +5,13 @@
 # Código Modelos
 #_____________________________________________________________________________#
 
+#   Autores: - Jorge Rodríguez                                                  
+#            - Iván Velázquez  
+#            - Santiago Gonzalez
+#            - Maria Jose Colmenares
+#
+#  Fecha: 16/03/2023 
+
 library(pacman) 
 p_load(tidyverse, janitor, tm, stringi, tidytext, stopwords, wordcloud2, udpipe,
        ggcorrplot) 
@@ -102,5 +109,6 @@ columnas_seleccionadas <- colSums(tf_idf) %>%
 tf_idf_reducido <- tf_idf %>%
   select(all_of(columnas_seleccionadas))
 
+#Base de Datos lista para usar
 save(train, test, data_clean, tf_idf, tf_idf_reducido, 
      file = "C:/Users/CARLOS COLMENARES/Downloads/datos_para_modelar.RData")
