@@ -19,7 +19,7 @@ p_load(tidyverse, janitor, tm, stringi, tidytext, stopwords, wordcloud2, udpipe,
 train <- read.csv("C:/Users/CARLOS COLMENARES/Downloads/train.csv", comment.char="#")
 test <- read.csv("C:/Users/CARLOS COLMENARES/Downloads/test.csv", comment.char="#")
 
-
+#Matriz de palabras para Train
 train["text"] <- apply(train["text"],1, tolower)
 train["text"] <- apply(train["text"],1, removeNumbers)
 train["text"] <- apply(train["text"],1, removePunctuation)
@@ -110,5 +110,7 @@ tf_idf_reducido <- tf_idf %>%
   select(all_of(columnas_seleccionadas))
 
 #Base de Datos lista para usar
-save(train, test, data_clean, tf_idf, tf_idf_reducido, 
+save(train, data_clean, tf_idf_reducido, 
      file = "C:/Users/CARLOS COLMENARES/Downloads/datos_para_modelar.RData")
+
+#Matriz de Palabras para Test
