@@ -86,12 +86,35 @@ data$covid <- grepl("\\covid\\b", data$comentario)
 data$distrital <- grepl("\\covid\\b", data$comentario)
 data$estacion <- grepl("\\estacion\\b", data$comentario)
 
+data$ciudad <- grepl("\\ciudad\\b", data$comentario)
+data$cuidar <- grepl("\\cuidar\\b", data$comentario)
+data$joven <- grepl("\\joven\\b", data$comentario)
+data$vacunacion <- grepl("\\vacunacion\\b", data$comentario)
+data$mujer <- grepl("\\mujer\\b", data$comentario)
 
+
+data$pacto <- grepl("\\pacto\\b", data$comentario)
+data$social <- grepl("\\social\\b", data$comentario)
+data$dejar <- grepl("\\dejar\\b", data$comentario)
+data$paz <- grepl("\\paz\\b", data$comentario)
+data$vida <- grepl("\\vida\\b", data$comentario)
+
+
+data$usd <- grepl("\\usd\\b", data$comentario)
+data$onzar <- grepl("\\onzar\\b", data$comentario)
+data$solidaridad <- grepl("\\solidaridad\\b", data$comentario)
+data$democracia <- grepl("\\democracia\\b", data$comentario)
+data$familia <- grepl("\\familia\\b", data$comentario)
+data$medellin <- grepl("\\medellin\\b", data$comentario)
 
 assign(obj, data)
 rm(data)
 
 }
+
+
+write.csv(train, "D:/2023/ANDES/Big data/Taller4_Big_data/data_final//train_final.csv", row.names=FALSE)
+write.csv(test, "D:/2023/ANDES/Big data/Taller4_Big_data/data_final//test_final.csv", row.names=FALSE)
 
 
 
