@@ -61,6 +61,44 @@ palabras_unicas <- words %>%
 
 udpipe_results <- udpipe_annotate(model, x = palabras_unicas$word)
 udpipe_results <- as_tibble(udpipe_results)
+                       
+palabras_eliminar <- words %>%
+  count(lemma) %>%
+  filter(n < 10)
+
+words <- words %>%
+  anti_join(palabras_eliminar, by = "lemma") 
+
+data_clean_t <- words %>%
+  group_by(id) %>% 
+  summarise(comentario = str_c(lemma, collapse = " ")) %>%
+  ungroup()
+
+tm_corpus_t <- Corpus(VectorSource(x = data_clean_t$comentario))
+str(tm_corpus)
+
+tf_idf_t <- TermDocumentMatrix(tm_corpus_t,
+                             control = list(weighting = weightTfIdf))
+
+tf_idf_t <- as.matrix(tf_idf_t) %>%
+  t() %>%
+  as.data.frame()
+
+dim(tf_idf_t)
+
+columnas_seleccionadas <- colSums(tf_idf_t) %>%
+  data.frame() %>%
+  arrange(desc(.)) %>%
+  head(50) %>%
+  rownames()
+
+tf_idf_reducido_t <- tf_idf_t %>%
+  select(all_of(columnas_seleccionadas))
+
+#Base de Datos lista para usar
+save(test, data_clean_t, tf_idf_t, tf_idf_reducido_t, 
+     file = "C:/Users/Santiago/Downloads/Escritorio/DOCUMENTOS SANTIGO/Maestria Uniandes/Big Data & Machine Learning/datos_para_testear.RData")
+                   
 udpipe_results <- udpipe_results %>% 
   select(token, lemma) %>%
   rename("word" = "token")
