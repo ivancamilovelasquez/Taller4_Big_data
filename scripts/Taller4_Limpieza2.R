@@ -64,8 +64,41 @@ words <- words %>%
   anti_join(sw, by = "word")
   
  
+
 #Lematizar palabras
-model <- udpipe_load_model(file = "C:/Users/Ivan/Documents/Documento 2023/Andes/Big data/Taller4/Taller4_Big_data/data/spanish-gsd-ud-2.5-191206.udpipe")
+model <- udpipe_load_model(file = "D:/2023/ANDES/Big data/Taller4_Big_data/data/spanish-gsd-ud-2.5-191206.udpipe")
+
+palabras_unicas <- words %>%
+  distinct(word)
+
+results <- udpipe_annotate(model, x = palabras_unicas$word)
+results <- as_tibble(results)
+
+
+results  <- results %>% 
+  select(token, lemma) %>% 
+  rename ("word" = "token")
+
+words <- words %>% 
+  left_join(results, by ="word", multiple ="all")
+
+words[is.na(words$lemma), "lemma"] <-  words[is.na(words$lemma) , "word"]
+
+
+# Eliminamos palabras que se repiten más de 10 
+palabras_eliminar <- words %>%
+  count(lemma) %>%
+  filter(n < 10)
+
+
+# Volvemos a poner las bases a nivel de comentario
+words <- words %>%
+  anti_join(palabras_eliminar, by = "lemma") 
+
+data_clean_t <- words %>%
+  group_by(id) %>% 
+  summarise(comentario = str_c(lemma, collapse = " ")) %>%
+  ungroup()
 
 
 
@@ -76,6 +109,5 @@ rm(data)
 
 }
 
-s
   
   
