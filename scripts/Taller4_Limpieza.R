@@ -105,6 +105,12 @@ data_clean_t <- words %>%
   summarise(comentario = str_c(lemma, collapse = " ")) %>%
   ungroup()
 
+a <- test %>%
+  anti_join(data_clean_t, by = "id")
+
+colnames(a)[which(names(a) == "text")] <- "comentario"
+
+data_clean_t <- rbind(data_clean_t, a)                      
 
 #Matriz de palabras con sus pesos 
 tm_corpus <- Corpus(VectorSource(x = data_clean_t$comentario))
@@ -137,5 +143,6 @@ rm(data)
 
 }
 
+           
   
 
