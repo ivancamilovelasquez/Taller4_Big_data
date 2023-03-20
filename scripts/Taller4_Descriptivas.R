@@ -20,3 +20,6 @@ train <- read.csv("C:/Users/jorge/Desktop/BIG DATA & ML/Problem Set 4/train.csv"
 test <- read.csv("C:/Users/jorge/Desktop/BIG DATA & ML/Problem Set 4/test.csv", comment.char="#")
 
 PAPERS_CORPUS <- corpus(train$text)
+
+
+
