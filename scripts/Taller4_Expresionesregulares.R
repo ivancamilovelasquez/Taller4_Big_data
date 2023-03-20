@@ -46,13 +46,16 @@ words_lopez <- lopez %>%
 
 
 # Mapa de palabras
+# Mapa palabras Lopez
 
 words_lopez <-  subset(words_lopez, word != "ano")
 n_words_lopez <- words_lopez %>%
   count(word) %>%
   arrange(desc(n)) %>%
   head(100)
-wordcloud2(data = n_words_lopez)
+
+wordcloud(words_lopez$word, min.freq = 100, 
+          colors= c(rgb(72/255, 191/255, 169/255),rgb(249/255, 220/255, 92/255), rgb(229/255, 249/255, 147/255))) 
 
 
 n_words_petro <- words_petro %>%
