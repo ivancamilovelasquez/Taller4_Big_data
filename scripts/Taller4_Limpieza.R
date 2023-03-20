@@ -114,3 +114,53 @@ save(train, data_clean, tf_idf_reducido,
      file = "C:/Users/CARLOS COLMENARES/Downloads/datos_para_modelar.RData")
 
 #Matriz de Palabras para Test
+                       
+
+test["text"] <- apply(test["text"],1, tolower)
+test["text"] <- apply(test["text"],1, removeNumbers)
+test["text"] <- apply(test["text"],1, removePunctuation)
+test["text"] <- apply(test["text"],1, stripWhitespace)
+test["text"] <- apply(test["text"], 1, function(x) 
+  stri_trans_general(str = x, id = "Latin-ASCII"))
+
+test <- test %>%
+  mutate(id = row_number())
+
+words <- test %>%
+  unnest_tokens(output = "word", input = "text")
+
+sw <- c()
+for (s in c("snowball", "stopwords-iso", "nltk")) {
+  temp <- get_stopwords("spanish", source = s)$word
+  sw <- c(sw, temp)
+}
+sw <- unique(sw)
+sw <- unique(stri_trans_general(str = sw, id = "Latin-ASCII"))
+sw <- data.frame(word = sw)
+
+words <- words %>%
+  anti_join(sw, by = "word")
+
+n_words <- words %>%
+  count(word) %>%
+  arrange(desc(n)) %>%
+  head(200)
+
+wordcloud2(data = n_words)
+
+udpipe::udpipe_download_model('spanish')
+
+model <- udpipe_load_model(file = "spanish-gsd-ud-2.5-191206.udpipe")
+
+palabras_unicas <- words %>%
+  distinct(word)
+
+udpipe_results <- udpipe_annotate(model, x = palabras_unicas$word)
+udpipe_results <- as_tibble(udpipe_results)
+udpipe_results <- udpipe_results %>% 
+  select(token, lemma) %>%
+  rename("word" = "token")
+
+words <- words %>%
+  left_join(udpipe_results, by = "word", multiple = "all")
+words[is.na(words$lemma), "lemma"] <- words[is.na(words$lemma), "word"]                       
