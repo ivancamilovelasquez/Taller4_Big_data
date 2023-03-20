@@ -43,12 +43,6 @@ data["text"] <- apply(data["text"],1, removePunctuation)
 data["text"] <- apply(data["text"],1, stripWhitespace)
 data["text"] <- apply(data["text"], 1, function(x) 
 stri_trans_general(str = x, id = "Latin-ASCII")) 
-  
-
-
-#De Comentarios a palabras 
-data <- data %>%
-  mutate(id = row_number())
 
 #Partir comentarios por palabras
 words <- data %>%
@@ -106,7 +100,14 @@ data_clean_t <- words %>%
     summarise(comentario = str_c(lemma, collapse = " ")) %>%
     ungroup()
 
-
+data_clean_t$id <- as.character(data_clean_t$id)
+  
+  a <- test %>%
+    anti_join(data_clean_t, by = "id")
+  
+  colnames(a)[which(names(a) == "text")] <- "comentario"
+  
+  data_clean_t <- rbind(data_clean_t, a)
 
 #Matriz de palabras con sus pesos 
 tm_corpus <- Corpus(VectorSource(x = data_clean_t$comentario))
