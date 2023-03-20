@@ -139,4 +139,7 @@ rm(data)
 
 }
 
-  
+
+write.csv(train, "D:/2023/ANDES/Big data/Taller4_Big_data/data_final//train_fina_paso2.csv", row.names=FALSE)
+write.csv(test, "D:/2023/ANDES/Big data/Taller4_Big_data/data_final//test_final.csv_paso2.csv", row.names=FALSE)
+
