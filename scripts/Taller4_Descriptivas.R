@@ -14,10 +14,11 @@
 
 library(pacman) 
 p_load(tidyverse, janitor, tm, stringi, tidytext, stopwords, wordcloud2, udpipe,
-       ggcorrplot, readtext, RColorBrewer,broom, rgdal) 
+       ggcorrplot, readtext, RColorBrewer,broom, rgdal, quanteda) 
 
 train <- read.csv("C:/Users/jorge/Desktop/BIG DATA & ML/Problem Set 4/train.csv", comment.char="#")
 test <- read.csv("C:/Users/jorge/Desktop/BIG DATA & ML/Problem Set 4/test.csv", comment.char="#")
+
 
 PAPERS_CORPUS <- corpus(train$text)
 
