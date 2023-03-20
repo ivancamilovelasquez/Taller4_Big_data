@@ -39,10 +39,12 @@ data$fascismo <- grepl("\\fascismo\\b", data$comentario)
 data$transmilenio <- grepl("\\transmilenio\\b", data$comentario)
 data$covid <- grepl("\\covid\\b", data$comentario)
 data$distrital <- grepl("\\covid\\b", data$comentario)
-distrital 
+data$estacion <- grepl("\\estacion\\b", data$comentario)
 
 assign(obj, data)
 rm(data)
 
 }
+
+
 
