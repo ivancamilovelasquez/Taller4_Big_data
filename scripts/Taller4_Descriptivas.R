@@ -49,7 +49,7 @@ dfmat_inaug <- dfm(PALABRAS, remove = stopwords("es"))
 library(quanteda.textstats)
 tstat_lexdiv <- textstat_lexdiv(dfmat_inaug)
 tail(tstat_lexdiv, 5)
-
+#gráficos
 plot(tstat_lexdiv$TTR, type = "l", xaxt = "n", xlab ="Político", ylab = "TTR")
 grid()
 axis(1, at = seq_len(nrow(tstat_lexdiv)), labels = c("Petro", "López", "Uribe"))
