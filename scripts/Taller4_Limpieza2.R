@@ -12,6 +12,12 @@
 #
 #  Fecha: 16/03/2023 
 
+# - Limpiar espacio de trabajo
+
+rm(list = ls())
+
+# - Librerias y paquetes 
+
 library(pacman) 
 p_load(tidyverse, janitor, tm, stringi, tidytext, stopwords, wordcloud2, udpipe,
        ggcorrplot) 
@@ -23,7 +29,6 @@ p_load(tidyverse, janitor, tm, stringi, tidytext, stopwords, wordcloud2, udpipe,
 
 train <- read.csv("D:/2023/ANDES/Big data/Taller4_Big_data/data/train.csv", comment.char="#")
 test <- read.csv("D:/2023/ANDES/Big data/Taller4_Big_data/data/test.csv", comment.char="#")
-
 
 
 objetos <- c("train", "test")
@@ -85,7 +90,7 @@ words <- words %>%
 words[is.na(words$lemma), "lemma"] <-  words[is.na(words$lemma) , "word"]
 
 
-# Eliminamos palabras que se repiten más de 10 
+# Eliminamos palabras que se repiten menos de 10 
 palabras_eliminar <- words %>%
   count(lemma) %>%
   filter(n < 10)
@@ -101,7 +106,30 @@ data_clean_t <- words %>%
   ungroup()
 
 
+#Matriz de palabras con sus pesos 
+tm_corpus <- Corpus(VectorSource(x = data_clean_t$comentario))
+str(tm_corpus)
 
+tf_idf <- TermDocumentMatrix(tm_corpus,
+                               control = list(weighting = weightTfIdf))
+
+tf_idf <- as.matrix(tf_idf) %>%
+  t() %>%
+  as.data.frame()
+
+
+# Dejar solo las 70 palabras mas importantes
+
+columnas_seleccionadas <- colSums(tf_idf) %>%
+  data.frame() %>%
+  arrange(desc(.)) %>%
+  head(100) %>%
+  rownames()
+
+tf_idf_reducido <- tf_idf %>%
+  select(all_of(columnas_seleccionadas))
+
+data = cbind(data_clean_t, tf_idf_reducido)
 
 
 assign(obj, data)
@@ -110,4 +138,4 @@ rm(data)
 }
 
   
-  
+
