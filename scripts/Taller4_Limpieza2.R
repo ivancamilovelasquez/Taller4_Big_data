@@ -21,8 +21,8 @@ p_load(tidyverse, janitor, tm, stringi, tidytext, stopwords, wordcloud2, udpipe,
 #test <- read.csv("C:/Users/CARLOS COLMENARES/Downloads/test.csv", comment.char="#")
 
 
-train <- read.csv("C:/Users/Ivan/Documents/Documento 2023/Andes/Big data/Taller4/Taller4_Big_data/data/train.csv", comment.char="#")
-test <- read.csv("C:/Users/Ivan/Documents/Documento 2023/Andes/Big data/Taller4/Taller4_Big_data/data/test.csv", comment.char="#")
+train <- read.csv("D:/2023/ANDES/Big data/Taller4_Big_data/data/train.csv", comment.char="#")
+test <- read.csv("D:/2023/ANDES/Big data/Taller4_Big_data/data/test.csv", comment.char="#")
 
 
 
